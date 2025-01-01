@@ -25,17 +25,17 @@ export default function Home() {
     }, []);
 
     const handleNext = () => {
+        setShowVotes(false); // Hide votes when moving to the next question
         setCurrentIndex((prevIndex) => {
             const nextIndex = prevIndex + 1 < allQuestions.length ? prevIndex + 1 : prevIndex;
-            localStorage.setItem("currentIndex", nextIndex.toString());
             return nextIndex;
         });
     };
 
     const handlePrevious = () => {
+        setShowVotes(false); // Hide votes when moving to the previous question
         setCurrentIndex((prevIndex) => {
             const prev = prevIndex > 0 ? prevIndex - 1 : 0;
-            localStorage.setItem("currentIndex", prev.toString());
             return prev;
         });
     };
