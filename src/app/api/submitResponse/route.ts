@@ -1,57 +1,28 @@
-import fsPromises from "fs/promises";
+// import fsPromises from "fs/promises";
+import Question from "@/models/Questions";
 import { NextRequest, NextResponse } from "next/server";
-import path from 'path';
+// import path from 'path';
 
-const RESPONSES_FILE = "./src/app/api/db/questions.json";
-const RESPONSES_FILE_PATH = process.env.NODE_ENV === "development" ? path.join(process.cwd(), RESPONSES_FILE) : "/tmp/questions.json";
+// const RESPONSES_FILE = "./src/app/api/db/questions.json";
+// const RESPONSES_FILE_PATH = process.env.NODE_ENV === "development" ? path.join(process.cwd(), RESPONSES_FILE) : "/tmp/questions.json";
 
 export async function POST(req: NextRequest) {
     try {
         const reqBody = await req.json();
-        const { questionIndex, optionIndex } = reqBody;
+        const { questionId, optionIndex } = reqBody;
 
         // Proper validation for indexes
-        if (questionIndex === undefined || optionIndex === undefined) {
-            return NextResponse.json({ status: 400, message: "Bad Request, questionIndex and optionIndex are required" });
+        if (questionId === undefined || optionIndex === undefined) {
+            return NextResponse.json({ status: 400, message: "Bad Request, questionId and optionIndex are required" });
         }
 
-        let fileRes;
-        try {
-            fileRes = await fsPromises.readFile(RESPONSES_FILE, "utf-8");
-        } catch (readError) {
-            console.error("Error reading file:", readError);
-            return NextResponse.json({ status: 500, message: "Failed to read the data file." });
-        }
+        const result = await Question.updateOne({ _id: questionId }, { $inc: { [`votes.${optionIndex}`]: 1 } });
 
-        let prevResponses;
-        try {
-            prevResponses = await JSON.parse(fileRes);
-        } catch (parseError) {
-            console.error("Error parsing JSON:", parseError);
-            return NextResponse.json({ status: 500, message: "Failed to parse the data file." });
-        }
-
-        // Validate question and option existence
-        if (!prevResponses.questions || !prevResponses.questions[questionIndex]) {
+        if (result.modifiedCount === 0) {
             return NextResponse.json({ status: 404, message: "Question not found" });
         }
 
-        if (!prevResponses.questions[questionIndex].votes || prevResponses.questions[questionIndex].votes[optionIndex] === undefined) {
-            return NextResponse.json({ status: 404, message: "Option not found" });
-        }
-
-        // Increment vote
-        prevResponses.questions[questionIndex].votes[optionIndex]++;
-
-        // Write back to file
-        try {
-            await fsPromises.writeFile(RESPONSES_FILE_PATH, JSON.stringify(prevResponses, null, 2));
-        } catch (writeError) {
-            console.error("Error writing file:", writeError);
-            return NextResponse.json({ status: 500, message: "Failed to update the data file." });
-        }
-
-        return NextResponse.json({ status: 200, message: "Vote recorded successfully", data: prevResponses });
+        return NextResponse.json({ status: 200, message: "Response submitted successfully" });
     } catch (error) {
         console.error("Unexpected error:", error);
         return NextResponse.json({ status: 500, message: "Internal Server Error" });

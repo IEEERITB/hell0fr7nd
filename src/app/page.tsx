@@ -41,7 +41,7 @@ export default function Home() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post("/api/submitResponse", {
-        questionIndex: currentIndex,
+        questionId: allQuestions[currentIndex]._id,
         optionIndex: selectedOption,
       });
       if (res.status === 200) {
