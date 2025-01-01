@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import path from 'path';
 
 const RESPONSES_FILE = "./src/app/api/db/questions.json";
-const RESPONSES_FILE_PATH = path.join(process.cwd(), RESPONSES_FILE);
+const RESPONSES_FILE_PATH = process.env.NODE_ENV === "development" ? path.join(process.cwd(), RESPONSES_FILE) : "/tmp/questions.json";
 
 export async function POST(req: NextRequest) {
     try {
