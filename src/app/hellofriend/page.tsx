@@ -21,10 +21,6 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const savedIndex = localStorage.getItem("currentIndex");
-        if (savedIndex) {
-            setCurrentIndex(Number(savedIndex));
-        }
         getAllQuestions();
     }, []);
 

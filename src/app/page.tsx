@@ -5,28 +5,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [selectedOption, setSelectedOption] = useState<number|null>(null);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [allQuestions, setAllQuestions] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   async function getAllQuestions() {
+    setLoading(true);
     try {
       const response = await axios.get("/api/getAllQuestions");
       setAllQuestions(response.data.questions);
     } catch (error) {
       console.error("Error fetching questions:", error);
       setError("Failed to load questions. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   }
-
-  useEffect(() => {
-    const savedIndex = localStorage.getItem("currentIndex");
-    if (savedIndex) {
-      setCurrentIndex(Number(savedIndex));
-    }
-    getAllQuestions();
-  }, []);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => {
@@ -44,20 +40,30 @@ export default function Home() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("/api/submitResponse", { 
-        questionIndex: currentIndex, 
-        optionIndex: selectedOption 
+      const res = await axios.post("/api/submitResponse", {
+        questionIndex: currentIndex,
+        optionIndex: selectedOption,
       });
-      if (res.status === 200){
+      if (res.status === 200) {
         console.log("Response submitted successfully");
         localStorage.setItem("currentIndex", (currentIndex + 1).toString());
-        setCurrentIndex(currentIndex+1);
+        setCurrentIndex(currentIndex + 1);
+        setSelectedOption(null);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    const savedIndex = localStorage.getItem("currentIndex");
+    if (savedIndex) {
+      setCurrentIndex(Number(savedIndex));
+    }
+    getAllQuestions();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
   if (currentIndex >= allQuestions.length) return "Questions already answered";
 
   return (
@@ -72,7 +78,11 @@ export default function Home() {
             {allQuestions[currentIndex]?.options.map((option: string, index: number) => (
               <div
                 key={index}
-                className={`p-2 border-2 border-gray-300 rounded cursor-pointer ${selectedOption === index ? "border-blue-600" : ""}`}
+                className={`p-2 border-2 rounded cursor-pointer transition-all duration-300 ${
+                  selectedOption === index
+                    ? "border-blue-600 bg-blue-100" // Add background color for selected option
+                    : "border-gray-300"
+                }`}
                 onClick={() => setSelectedOption(index)}
               >
                 {option}
@@ -80,8 +90,12 @@ export default function Home() {
             ))}
           </div>
           <div>
-            <Button onClick={handlePrevious} disabled={currentIndex === 0}>Previous</Button>
-            <Button onClick={handleNext} disabled={currentIndex === allQuestions.length - 1}>Next</Button>
+            <Button onClick={handlePrevious} disabled={currentIndex === 0}>
+              Previous
+            </Button>
+            <Button onClick={handleNext} disabled={currentIndex === allQuestions.length - 1}>
+              Next
+            </Button>
             <Button onClick={handleSubmit}>Submit</Button>
           </div>
         </div>

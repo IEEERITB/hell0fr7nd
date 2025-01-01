@@ -6,17 +6,14 @@ const RESPONSES_FILE = "./src/db/questions.json";
 const RESPONSES_FILE_PATH = path.join(process.cwd(), RESPONSES_FILE);
 
 export async function POST(req: NextRequest) {
-    console.log("Submitting response");
     try {
         const reqBody = await req.json();
-        console.log(reqBody);
         const { questionIndex, optionIndex } = reqBody;
 
         // Proper validation for indexes
         if (questionIndex === undefined || optionIndex === undefined) {
             return NextResponse.json({ status: 400, message: "Bad Request, questionIndex and optionIndex are required" });
         }
-        console.log("Question Index:", questionIndex, "Option Index:", optionIndex);
 
         let fileRes;
         try {
@@ -45,8 +42,6 @@ export async function POST(req: NextRequest) {
 
         // Increment vote
         prevResponses.questions[questionIndex].votes[optionIndex]++;
-
-        console.log("Updated Votes:", prevResponses);
 
         // Write back to file
         try {
