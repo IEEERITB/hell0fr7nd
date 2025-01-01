@@ -2,7 +2,7 @@ import fsPromises from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import path from 'path';
 
-const RESPONSES_FILE = "./src/api/db/questions.json";
+const RESPONSES_FILE = "./src/app/api/db/questions.json";
 const RESPONSES_FILE_PATH = path.join(process.cwd(), RESPONSES_FILE);
 
 export async function POST(req: NextRequest) {
