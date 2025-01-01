@@ -1,0 +1,79 @@
+{
+  "questions": [
+    {
+      "question": "Name something you do when you realize you're being watched on a Zoom call.",
+      "options": [
+        "Pretend to be frozen",
+        "Smile awkwardly",
+        "Close the laptop",
+        "Wave like you're in a parade"
+      ],
+      "votes": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "question": "What's something you'd hate to forget before going on vacation?",
+      "options": [
+        "Passport",
+        "Phone charger",
+        "Underwear",
+        "Your kids"
+      ],
+      "votes": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "question": "Name something people do when they think no one is watching.",
+      "options": [
+        "Pick their nose",
+        "Dance badly",
+        "Talk to themselves",
+        "Flex in the mirror"
+      ],
+      "votes": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "question": "What might you hear someone say in a horror movie just before something bad happens?",
+      "options": [
+        "Let's split up!",
+        "I'll be right back",
+        "Did you hear that?",
+        "This place looks safe"
+      ],
+      "votes": [
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "question": "Name something you'd do if you were invisible for a day.",
+      "options": [
+        "Sneak into a movie theater",
+        "Spy on celebrities",
+        "Scare your friends",
+        "Eat all the snacks"
+      ],
+      "votes": [
+        1,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
