@@ -21,8 +21,8 @@ export function NavigationButtons({
     const isLastQuestion = currentQuestion === totalQuestions - 1;
 
     return (
-        <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
-            <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row justify-between mt-8 pt-6 border-t border-white/10">
+            <div className="flex w-full justify-between gap-4">
 
                 <button
                     onClick={onPrevious}
@@ -52,7 +52,7 @@ export function NavigationButtons({
                 <button
                     onClick={onShow}
                     className="flex items-center px-6 py-2 text-white rounded-lg
-                    hover:bg-white/10 transition-all duration-200"
+                    hover:bg-white/10 transition-all duration-200 justify-center"
                 >
                     Show Answers
                 </button>
@@ -61,7 +61,7 @@ export function NavigationButtons({
                 <button
                     onClick={onSubmit}
                     className="flex items-center px-6 py-2 bg-green-500 text-white rounded-lg
-                    hover:bg-green-600 transition-all duration-200"
+                    hover:bg-green-600 transition-all duration-200 justify-center"
                 >
                     <Check className="w-5 h-5 mr-2" />
                     Submit
