@@ -55,17 +55,9 @@ export default function Home() {
     if (loading) return <Loader />;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700">
-            <div className="container mx-auto px-4 py-16">
-                <div className="max-w-2xl mx-auto">
-                    <div className="flex items-center justify-center mb-12">
-                        <Brain className="w-10 h-10 text-white opacity-90 mr-3" />
-                        <h1 className="text-4xl font-bold text-white tracking-tight">{config.name}</h1>
-                    </div>
-
-                    {/* Quiz Card */}
                     <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20">
                         <div className="text-white/90 mb-8">
+        <h3 className="text-md font-medium text-blue-200">IEEE Feud</h3>
                             <span className="text-sm font-medium text-blue-200">Question {currentIndex + 1} of {allQuestions.length}</span>
                             <h2 className="text-2xl font-semibold mt-2">
                                 {allQuestions[currentIndex]?.question}
@@ -113,8 +105,5 @@ export default function Home() {
                             onShow={handleShowAnswers}
                         />
                     </div>
-                </div>
-            </div>
-        </div>
     );
 }

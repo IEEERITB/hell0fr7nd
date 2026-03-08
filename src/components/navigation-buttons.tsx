@@ -7,6 +7,7 @@ type NavigationButtonsProps = {
     onNext: () => void;
     onShow?: () => void;
     onSubmit?: () => void;
+    isSubmitted?: boolean;
 };
 
 export function NavigationButtons({
@@ -16,6 +17,7 @@ export function NavigationButtons({
     onNext,
     onShow,
     onSubmit,
+    isSubmitted,
 }: NavigationButtonsProps) {
     const isFirstQuestion = currentQuestion === 0;
     const isLastQuestion = currentQuestion === totalQuestions - 1;
@@ -57,7 +59,7 @@ export function NavigationButtons({
                     Show Answers
                 </button>
             )}
-            {onSubmit && (
+            {onSubmit && !isSubmitted && (
                 <button
                     onClick={onSubmit}
                     className="flex items-center px-6 py-2 bg-green-500 text-white rounded-lg

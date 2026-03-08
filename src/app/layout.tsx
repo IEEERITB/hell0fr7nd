@@ -27,7 +27,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="min-h-screen bg-center bg-cover bg-[url('https://res.cloudinary.com/dah6xlxco/image/upload/v1772975218/ChatGPT_Image_Mar_8_2026_06_36_18_PM_masctk.png')]">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-2xl mx-auto">
         {children}
+        </div>
+      </div>
+    </div>
       </body>
     </html>
   );
