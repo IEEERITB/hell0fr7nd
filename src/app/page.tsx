@@ -90,6 +90,7 @@ export default function Home() {
   };
 
   const handleNext = () => {
+    setSelectedOption(null);
     setCurrentIndex((prevIndex) => {
       const nextIndex = prevIndex + 1 < allQuestions.length ? prevIndex + 1 : prevIndex;
       return nextIndex;
@@ -97,6 +98,7 @@ export default function Home() {
   };
 
   const handlePrevious = () => {
+    setSelectedOption(null);
     setCurrentIndex((prevIndex) => {
       const prev = prevIndex > 0 ? prevIndex - 1 : 0;
       return prev;
