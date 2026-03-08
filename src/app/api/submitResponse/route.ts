@@ -1,5 +1,6 @@
 // import fsPromises from "fs/promises";
-import Question from "@/models/Questions";
+import { ConnectToDB } from "@/db";
+import Answer from "@/models/Answer";
 import { NextRequest, NextResponse } from "next/server";
 // import path from 'path';
 
@@ -8,6 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
+        await ConnectToDB();
         const reqBody = await req.json();
         const { questionId, optionIndex } = reqBody;
 
@@ -16,10 +18,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ status: 400, message: "Bad Request, questionId and optionIndex are required" });
         }
 
-        const result = await Question.updateOne({ _id: questionId }, { $inc: { [`votes.${optionIndex}`]: 1 } });
+        const answer = await Answer.create({ questionId, optionIndex });
 
-        if (result.modifiedCount === 0) {
-            return NextResponse.json({ status: 404, message: "Question not found" });
+        if (!answer) {
+            return NextResponse.json({ status: 500, message: "Failed to save answer" });
         }
 
         return NextResponse.json({ status: 200, message: "Response submitted successfully" });

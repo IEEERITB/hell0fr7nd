@@ -1,5 +1,6 @@
 import { ConnectToDB } from "@/db";
 import Question from "@/models/Questions";
+import Answer from "@/models/Answer";
 // import fsPromises from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 // import path from 'path';
@@ -10,11 +11,27 @@ import { NextRequest, NextResponse } from "next/server";
 ConnectToDB();
 
 export async function GET(req: NextRequest) {
-    // const fileRes = await fsPromises.readFile(QUESTION_FILE_PATH, "utf-8");
-    // if (!fileRes) return NextResponse.json({ status: 500, message: "Internal Server Error" });
-    // const allQuestions = JSON.parse(fileRes);
+    const questions = await Question.find();
+    const answers = await Answer.find();
 
-    const res = await Question.find();
+    const questionsWithVotes = questions.map((question) => {
+        const questionId = String(question._id);
+        const votes = new Array(question.options.length).fill(0);
 
-    return NextResponse.json({ status: 200, questions: res });
+        answers.forEach((answer) => {
+            if (String(answer.questionId) === questionId && answer.optionIndex >= 0 && answer.optionIndex < votes.length) {
+                votes[answer.optionIndex]++;
+            }
+        });
+
+        const questionObj = question.toObject();
+        delete questionObj.votes;
+        
+        return {
+            ...questionObj,
+            votes,
+        };
+    });
+
+    return NextResponse.json({ status: 200, questions: questionsWithVotes });
 }
